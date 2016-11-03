@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <UserProject />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM' ">
+    <RemoteDebugMachine>10.0.1.89</RemoteDebugMachine>
+    <RemoteDebugPort>5678</RemoteDebugPort>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM' ">
+    <RemoteDebugMachine>10.0.1.89</RemoteDebugMachine>
+    <RemoteDebugPort>5678</RemoteDebugPort>
+  </PropertyGroup>
+</Project>

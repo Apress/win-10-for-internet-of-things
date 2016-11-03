@@ -1,0 +1,107 @@
+--- \Users\Chuck\Documents\Visual Studio 2015\Projects\Weather\WeatherSensor\BMP280.cs	2016-05-29 17:12:14.602565700 -0400
++++ \Users\Chuck\Documents\Visual Studio 2015\Projects\runtimecomponent2\BMP280.cs	2016-05-25 21:58:53.047515300 -0400
+@@ -8,9 +8,9 @@
+ using Windows.Devices.Gpio;
+ using Windows.Devices.I2c;
+ 
+-namespace Lesson_203
++namespace RuntimeComponent2
+ {
+-    public class BMP280_CalibrationData
++    public sealed class BMP280_CalibrationData
+     {
+         //BMP280 Registers
+         public UInt16 dig_T1 { get; set; }
+@@ -28,7 +28,7 @@
+         public Int16 dig_P9 { get; set; }
+     }
+ 
+-    public class BMP280
++    public sealed class BMP280
+     {
+         //The BMP280 register addresses according the the datasheet: http://www.adafruit.com/datasheets/BST-BMP280-DS001-11.pdf
+         const byte BMP280_Address = 0x77;
+@@ -78,13 +78,20 @@
+         private I2cDevice bmp280 = null;
+         //Create new calibration data for the sensor
+         BMP280_CalibrationData CalibrationData;
+-        //Variable to check if device is initialized
++        //Variable to check if device is `lized
+         bool init = false;
+ 
+         //Method to initialize the BMP280 sensor
+-        public async Task Initialize()
++        public void Initialize()
+         {
+             Debug.WriteLine("BMP280::Initialize");
++            Task t_setup = Task.Run(() => Setup());
++            t_setup.Wait();
++        }
++
++        private async Task Setup()
++        {
++            Debug.WriteLine("BMP280::Setup");
+ 
+             try
+             {
+@@ -262,10 +269,14 @@
+         }
+ 
+ 
+-        public async Task<float> ReadTemperature()
++        public float ReadTemperature()
+         {
+             //Make sure the I2C device is initialized
+-            if (!init) await Begin();
++            if (!init)
++            {
++                Task t_begin = Task.Run(() => Begin());
++                t_begin.Wait();
++            }
+ 
+             //Read the MSB, LSB and bits 7:4 (XLSB) of the temperature from the BMP280 registers
+             byte tmsb = ReadByte((byte)eRegisters.BMP280_REGISTER_TEMPDATA_MSB);
+@@ -282,15 +293,19 @@
+             return (float)temp;
+         }
+ 
+-        public async Task<float> ReadPreasure()
++        public float ReadPreasure()
+         {
+             //Make sure the I2C device is initialized
+-            if (!init) await Begin();
++            if (!init)
++            {
++                Task t_begin = Task.Run(() => Begin());
++                t_begin.Wait();
++            }
+ 
+             //Read the temperature first to load the t_fine value for compensation
+             if (t_fine == Int32.MinValue)
+             {               
+-                await ReadTemperature();
++                ReadTemperature();
+             }
+ 
+             //Read the MSB, LSB and bits 7:4 (XLSB) of the pressure from the BMP280 registers
+@@ -309,13 +324,17 @@
+         }
+ 
+         //Method to take the sea level pressure in Hectopascals(hPa) as a parameter and calculate the altitude using current pressure.
+-        public async Task<float> ReadAltitude(float seaLevel)
++        public float ReadAltitude(float seaLevel)
+         {
+             //Make sure the I2C device is initialized
+-            if (!init) await Begin();
++            if (!init)
++            {
++                Task t_begin = Task.Run(() => Begin());
++                t_begin.Wait();
++            }
+ 
+             //Read the pressure first
+-            float pressure = await ReadPreasure();
++            float pressure = ReadPreasure();
+             //Convert the pressure to Hectopascals(hPa)
+             pressure /= 100;
+ 

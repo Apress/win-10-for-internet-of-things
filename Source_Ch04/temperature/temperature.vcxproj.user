@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <DebuggerFlavor>WindowsRemoteDebugger</DebuggerFlavor>
+    <RemoteDebuggerCommand>c:\deploy\temperature.exe</RemoteDebuggerCommand>
+    <RemoteDebuggerServerName>10.0.1.89:8116</RemoteDebuggerServerName>
+    <DeploymentDirectory>c:\deploy\</DeploymentDirectory>
+    <RemoteDebuggerDebuggerType>NativeOnly</RemoteDebuggerDebuggerType>
+    <RemoteDebuggerConnection>RemoteWithoutAuthentication</RemoteDebuggerConnection>
+    <RemoteDebuggerAttach>false</RemoteDebuggerAttach>
+    <RemoteDebuggerWorkingDirectory>c:\deploy\</RemoteDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <DebuggerFlavor>WindowsRemoteDebugger</DebuggerFlavor>
+    <RemoteDebuggerDebuggerType>NativeOnly</RemoteDebuggerDebuggerType>
+    <RemoteDebuggerServerName>10.0.1.89:8116</RemoteDebuggerServerName>
+    <DeploymentDirectory>c:\deploy_rel\</DeploymentDirectory>
+    <RemoteDebuggerDeployDebugCppRuntime>true</RemoteDebuggerDeployDebugCppRuntime>
+    <RemoteDebuggerCommand>c:\deploy_rel\temperature.exe</RemoteDebuggerCommand>
+    <RemoteDebuggerWorkingDirectory>c:\deploy_rel\</RemoteDebuggerWorkingDirectory>
+    <RemoteDebuggerConnection>RemoteWithoutAuthentication</RemoteDebuggerConnection>
+  </PropertyGroup>
+</Project>
